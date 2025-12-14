@@ -72,4 +72,13 @@ public class Crew {
     public String getName() {
         return name;
     }
+
+    public boolean containsDate(LocalDate date) {
+        for (Attendance attendance : attendances) {
+            if (attendance.getDate().isEqual(date)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

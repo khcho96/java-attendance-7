@@ -35,7 +35,8 @@ public class Application {
 //        System.out.println(attendances.getCrews());
 
         while (true) {
-            LocalDate nowDate = DateTime.now();
+//            LocalDate nowDate = DateTime.now();
+            LocalDate nowDate = LocalDate.of(2024,12,13);
             String rawChoice = InputView.readChoice(nowDate);
             String choice = InputParser.parseChoice(rawChoice);
 
@@ -47,11 +48,18 @@ public class Application {
                 int month = nowDate.getMonthValue();
                 int day = nowDate.getDayOfMonth();
                 String dayOfWeek = nowDate.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.KOREAN);
-                if (dayOfWeek.matches("[토|일]") || nowDate.isEqual(LocalDate.of(24,12,25))) {
-                    throw new IllegalArgumentException(String.format("%d월 %d일 %s요일은 등교일이 아닙니다.", month, day, dayOfWeek));
+                if (dayOfWeek.matches("[토|일]") || nowDate.isEqual(LocalDate.of(2024,12,25))) {
+                    throw new IllegalArgumentException(String.format("[ERROR] %d월 %d일 %s요일은 등교일이 아닙니다.", month, day, dayOfWeek));
                 }
 
+                String name = InputView.readName();
+                if (!attendances.contains(name)) {
+                    throw new IllegalArgumentException("[ERROR] 등록되지 않은 닉네임입니다.");
+                }
 
+                if (attendances.isAlreadyAttend(name, nowDate)) {
+                    throw new IllegalArgumentException("[ERROR] 이미 출석을 확인하였습니다. 필요한 경우 수정 기능을 이용해주세요.");
+                }
 
                 continue;
             }

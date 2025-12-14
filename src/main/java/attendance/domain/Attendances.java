@@ -32,7 +32,18 @@ public class Attendances {
         }
     }
 
-    public List<Crew> getCrews() {
-        return crews;
+    public boolean contains(String name) {
+        Crew crew = new Crew(name);
+        return crews.contains(crew);
+    }
+
+    public boolean isAlreadyAttend(String name, LocalDate nowDate) {
+        Crew checkCrew = new Crew(name);
+        for (Crew crew : crews) {
+            if (crew.equals(checkCrew) && crew.containsDate(nowDate)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
