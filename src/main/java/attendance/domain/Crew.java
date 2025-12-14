@@ -38,22 +38,7 @@ public class Crew {
     public void registerDateAndTime(LocalDate date, LocalTime time) {
         String dayOfWeek = date.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.KOREAN);
 
-        LocalTime lateTime = LocalTime.parse("10:05");
-        LocalTime absenceTime = LocalTime.parse("10:30");
-        if (dayOfWeek.equals("월")) {
-            lateTime = LocalTime.parse("13:05");
-            absenceTime = LocalTime.parse("13:30");
-        }
-
-        String attendanceState = "출석";
-        if (time.isAfter(lateTime)) {
-            attendanceState = "지각";
-            lateCount++;
-        }
-        if (time.isAfter(absenceTime)) {
-            attendanceState = "결석";
-            absenceCount++;
-        }
+        String attendanceState = getAttendanceState(time, dayOfWeek);
 
         attendances.add(new Attendance(date, dayOfWeek, time, attendanceState));
     }
@@ -80,5 +65,48 @@ public class Crew {
             }
         }
         return false;
+    }
+
+    public Crew registerAttendance(LocalTime newTime, LocalDate nowDate) {
+        String dayOfWeek = nowDate.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.KOREAN);
+        attendances.add(new Attendance(nowDate, dayOfWeek, newTime, getAttendanceState(newTime, dayOfWeek)));
+        return this;
+    }
+
+    private String getAttendanceState(LocalTime time, String dayOfWeek) {
+        LocalTime lateTime = LocalTime.parse("10:05");
+        LocalTime absenceTime = LocalTime.parse("10:30");
+        if (dayOfWeek.equals("월")) {
+            lateTime = LocalTime.parse("13:05");
+            absenceTime = LocalTime.parse("13:30");
+        }
+
+        String attendanceState = "출석";
+        if (time.isAfter(lateTime)) {
+            attendanceState = "지각";
+            lateCount++;
+        }
+        if (time.isAfter(absenceTime)) {
+            attendanceState = "결석";
+            absenceCount++;
+        }
+        return attendanceState;
+    }
+
+    public String getInfoAt(LocalDate nowDate) {
+        for (Attendance attendance : attendances) {
+            if (attendance.getDate().isEqual(nowDate)) {
+                int month = attendance.getDate().getMonthValue();
+                int day = attendance.getDate().getDayOfMonth();
+                String dayOfWeek = attendance.getDayOfWeek();
+                int hour = attendance.getTime().getHour();
+                int minute = attendance.getTime().getMinute();
+                String state = attendance.getState();
+
+                return "\n" + month + "월 " + day + "일 " + dayOfWeek + "요일 "
+                        + String.format("%02d:%02d", hour, minute) + " (" + state + ")";
+            }
+        }
+        return null;
     }
 }

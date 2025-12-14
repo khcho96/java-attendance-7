@@ -46,4 +46,18 @@ public class Attendances {
         }
         return false;
     }
+
+    public Crew registerAttendance(String name, LocalTime newTime, LocalDate nowDate) {
+        Crew checkCrew = new Crew(name);
+        for (Crew crew : crews) {
+            if (crew.equals(checkCrew)) {
+                return crew.registerAttendance(newTime, nowDate);
+            }
+        }
+        return null;
+    }
+
+    public List<Crew> getCrews() {
+        return crews;
+    }
 }

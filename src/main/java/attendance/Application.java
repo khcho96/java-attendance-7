@@ -1,7 +1,7 @@
 package attendance;
 
 import attendance.domain.Attendances;
-import attendance.time.DateTime;
+import attendance.domain.Crew;
 import attendance.util.InputParser;
 import attendance.util.file.FileReader;
 import attendance.view.InputView;
@@ -36,7 +36,7 @@ public class Application {
 
         while (true) {
 //            LocalDate nowDate = DateTime.now();
-            LocalDate nowDate = LocalDate.of(2024,12,13);
+            LocalDate nowDate = LocalDate.of(2024, 12, 13);
             String rawChoice = InputView.readChoice(nowDate);
             String choice = InputParser.parseChoice(rawChoice);
 
@@ -48,8 +48,9 @@ public class Application {
                 int month = nowDate.getMonthValue();
                 int day = nowDate.getDayOfMonth();
                 String dayOfWeek = nowDate.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.KOREAN);
-                if (dayOfWeek.matches("[토|일]") || nowDate.isEqual(LocalDate.of(2024,12,25))) {
-                    throw new IllegalArgumentException(String.format("[ERROR] %d월 %d일 %s요일은 등교일이 아닙니다.", month, day, dayOfWeek));
+                if (dayOfWeek.matches("[토|일]") || nowDate.isEqual(LocalDate.of(2024, 12, 25))) {
+                    throw new IllegalArgumentException(
+                            String.format("[ERROR] %d월 %d일 %s요일은 등교일이 아닙니다.", month, day, dayOfWeek));
                 }
 
                 String name = InputView.readName();
@@ -60,6 +61,17 @@ public class Application {
                 if (attendances.isAlreadyAttend(name, nowDate)) {
                     throw new IllegalArgumentException("[ERROR] 이미 출석을 확인하였습니다. 필요한 경우 수정 기능을 이용해주세요.");
                 }
+
+                String rawTime = InputView.readTime();
+                LocalTime newTime = InputParser.parseTime(rawTime);
+                LocalTime startTime = LocalTime.of(8, 0, 0);
+                LocalTime endTime = LocalTime.of(23, 0, 0);
+                if (newTime.isBefore(startTime) || newTime.isAfter(endTime)) {
+                    throw new IllegalArgumentException("[ERROR] 캠퍼스 운영 시간에만 출석이 가능합니다.");
+                }
+
+                Crew registerdCrew = attendances.registerAttendance(name, newTime, nowDate);
+                System.out.println(registerdCrew.getInfoAt(nowDate));
 
                 continue;
             }

@@ -1,5 +1,6 @@
 package attendance.util;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,5 +40,11 @@ public final class InputParser {
         rawChoice = rawChoice.strip();
         Validator.validateChoiceFormat(rawChoice);
         return rawChoice;
+    }
+
+    public static LocalTime parseTime(String rawTime) {
+        rawTime = rawTime.strip();
+        Validator.validateTimeFormat(rawTime);
+        return LocalTime.parse(rawTime);
     }
 }

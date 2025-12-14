@@ -6,6 +6,7 @@ public final class Validator {
 
     private static final String CSV_FORMAT = "^ *(\\[[가-힣a-zA-Z]+-\\d+])+ *(, *(\\[[가-힣a-zA-Z]+-\\d+])+ *)*$";
     private static final String CHOICE = " *[1234Q] *";
+    private static final String TIME_FORMAT = "\\d{2}:\\d{2}";
 
     private Validator() {
     }
@@ -17,6 +18,12 @@ public final class Validator {
     }
     public static void validateChoiceFormat(String rawChoice) {
         if (!rawChoice.matches(CHOICE)) {
+            throw new IllegalArgumentException(FORMAT_ERROR.getErrorMessage());
+        }
+    }
+
+    public static void validateTimeFormat(String rawTime) {
+        if (!rawTime.matches(TIME_FORMAT)) {
             throw new IllegalArgumentException(FORMAT_ERROR.getErrorMessage());
         }
     }
