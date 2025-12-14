@@ -4,21 +4,31 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Crew {
+public class Crew implements Comparable<Crew> {
 
     private String name;
-    private DangerState state;
+    private String dangerState;
     private List<Attendance> attendances;
+    private int attendanceCount;
     private int lateCount;
     private int absenceCount;
 
     public Crew(String name) {
         this.name = name;
         attendances = new ArrayList<>();
+    }
+
+    public Crew(String name, List<Attendance> attendances, int lateCount, int absenceCount, String dangerState) {
+        this.name = name;
+        this.attendances = attendances;
+        this.lateCount = lateCount;
+        this.absenceCount = absenceCount;
+        this.dangerState = dangerState;
     }
 
     @Override
@@ -47,7 +57,7 @@ public class Crew {
     public String toString() {
         return "Crew{" +
                 "name='" + name + '\'' +
-                ", state=" + state +
+                ", state=" + dangerState +
                 ", attendances=" + attendances +
                 ", lateCount=" + lateCount +
                 ", absenceCount=" + absenceCount +
@@ -82,14 +92,21 @@ public class Crew {
         }
 
         String attendanceState = "출석";
-        if (time.isAfter(lateTime)) {
-            attendanceState = "지각";
-            lateCount++;
-        }
+
         if (time.isAfter(absenceTime)) {
             attendanceState = "결석";
             absenceCount++;
+            return attendanceState;
         }
+
+        if (time.isAfter(lateTime)) {
+            attendanceState = "지각";
+            lateCount++;
+            return attendanceState;
+        }
+
+        attendanceCount++;
+
         return attendanceState;
     }
 
@@ -104,14 +121,117 @@ public class Crew {
                 String state = attendance.getState();
 
                 if (state.equals("결석")) {
-                    return "\n" + month + "월 " + day + "일 " + dayOfWeek + "요일 "
+                    return month + "월 " + day + "일 " + dayOfWeek + "요일 "
                             + "--:--" + " (" + state + ")";
                 }
 
-                return "\n" + month + "월 " + day + "일 " + dayOfWeek + "요일 "
+                return month + "월 " + day + "일 " + dayOfWeek + "요일 "
                         + String.format("%02d:%02d", hour, minute) + " (" + state + ")";
             }
         }
         return null;
+    }
+
+    public Crew clone() {
+        List<Attendance> copyAttendances = new ArrayList<>();
+        for (Attendance attendance : attendances) {
+            copyAttendances.add(attendance.clone());
+        }
+        return new Crew(this.name, copyAttendances, this.lateCount, this.absenceCount, this.dangerState);
+    }
+
+    public void modifyAttendance(LocalTime newTime, LocalDate modifiedDate) {
+        String dayOfWeek = modifiedDate.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.KOREAN);
+        for (Attendance attendance : attendances) {
+            if (attendance.getDate().isEqual(modifiedDate)) {
+                attendance.modify(modifiedDate, dayOfWeek, newTime, getAttendanceState(newTime, dayOfWeek));
+                return;
+            }
+        }
+        attendances.add(new Attendance(modifiedDate, dayOfWeek, newTime, getAttendanceState(newTime, dayOfWeek)));
+    }
+
+    public int getLateCount() {
+        return lateCount;
+    }
+
+    public int getAbsenceCount() {
+        return absenceCount;
+    }
+
+    public int getAttendanceCount() {
+        return attendanceCount;
+    }
+
+    public String getDangerState() {
+        return dangerState;
+    }
+
+    public List<LocalDate> getDates() {
+        List<LocalDate> dates = new ArrayList<>();
+        Collections.sort(attendances);
+        for (Attendance attendance : attendances) {
+            dates.add(attendance.getDate());
+        }
+        return dates;
+    }
+
+    public void addAbsenceDate(List<LocalDate> allDates) {
+        for (LocalDate date : allDates) {
+            boolean isContain = false;
+            for (Attendance attendance : attendances) {
+                if (attendance.getDate().isEqual(date)) {
+                    isContain = true;
+                    break;
+                }
+            }
+            if (!isContain) {
+                this.absenceCount++;
+                String dayOfWeek = date.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.KOREAN);
+                attendances.add(new Attendance(date, dayOfWeek, LocalTime.of(0,0), "결석"));
+            }
+        }
+    }
+
+    public void setDangerStatus() {
+        int absenceCount = this.absenceCount + lateCount / 3;
+
+        if (absenceCount > 5) {
+            dangerState = "제적";
+            return;
+        }
+
+        if (absenceCount >= 3) {
+            dangerState = "면담";
+            return;
+        }
+
+        if (absenceCount >= 2) {
+            dangerState = "경고";
+            return;
+        }
+
+        dangerState = "";
+    }
+
+    @Override
+    public int compareTo(Crew o) {
+        if (this.absenceCount > o.absenceCount) {
+            return -1;
+        }
+
+        if (this.absenceCount == o.absenceCount) {
+            if (this.lateCount > o.lateCount) {
+                return -1;
+            }
+
+            if (this.lateCount < o.lateCount) {
+                return 1;
+            }
+
+            return 0;
+        }
+
+        return 0;
     }
 }

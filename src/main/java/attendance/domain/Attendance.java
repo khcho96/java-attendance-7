@@ -3,7 +3,7 @@ package attendance.domain;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Attendance {
+public class Attendance implements Comparable<Attendance> {
 
     private LocalDate date;
     private String dayOfWeek;
@@ -41,5 +41,29 @@ public class Attendance {
                 ", time=" + time +
                 ", state='" + state + '\'' +
                 '}';
+    }
+
+    public void modify(LocalDate modifiedDate, String dayOfWeek, LocalTime newTime, String attendanceState) {
+        this.date = modifiedDate;
+        this.dayOfWeek = dayOfWeek;
+        this.time = newTime;
+        this.state = attendanceState;
+    }
+
+    public Attendance clone() {
+        return new Attendance(this.date, this.dayOfWeek, this.time, this.state);
+    }
+
+    @Override
+    public int compareTo(Attendance o) {
+        if (this.date.isBefore(o.date)) {
+            return -1;
+        }
+
+        if (this.date.isAfter(o.date)) {
+            return 1;
+        }
+
+        return 0;
     }
 }

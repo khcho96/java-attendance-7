@@ -1,5 +1,8 @@
 package attendance.util;
 
+import static attendance.constant.ErrorMessage.FORMAT_ERROR;
+
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,5 +49,17 @@ public final class InputParser {
         rawTime = rawTime.strip();
         Validator.validateTimeFormat(rawTime);
         return LocalTime.parse(rawTime);
+    }
+
+    public static LocalDate parseDate(String rawModifiedDate) {
+        rawModifiedDate = rawModifiedDate.strip();
+        if (!rawModifiedDate.matches("\\d+")) {
+            throw new IllegalArgumentException(FORMAT_ERROR.getErrorMessage());
+        }
+        int date = NumberConvertor.convertToNumber(rawModifiedDate);
+        if (date < 1 || date > 31) {
+            throw new IllegalArgumentException(FORMAT_ERROR.getErrorMessage());
+        }
+        return LocalDate.of(2024, 12, date);
     }
 }
