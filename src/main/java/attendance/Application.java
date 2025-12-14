@@ -44,6 +44,14 @@ public class Application {
             }
 
             if (choice.equals("1")) {
+                int month = nowDate.getMonthValue();
+                int day = nowDate.getDayOfMonth();
+                String dayOfWeek = nowDate.getDayOfWeek().getDisplayName(TextStyle.NARROW, Locale.KOREAN);
+                if (dayOfWeek.matches("[토|일]") || nowDate.isEqual(LocalDate.of(24,12,25))) {
+                    throw new IllegalArgumentException(String.format("%d월 %d일 %s요일은 등교일이 아닙니다.", month, day, dayOfWeek));
+                }
+
+
 
                 continue;
             }
