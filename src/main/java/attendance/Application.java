@@ -32,8 +32,9 @@ public class Application {
             attendances.addAttendance(name, date, time);
         }
 
-//        System.out.println(attendances.getCrews());
-
+        for (Crew crew : attendances.getCrews()) {
+            System.out.println(crew);
+        }
         while (true) {
 //            LocalDate nowDate = DateTime.now();
             LocalDate nowDate = LocalDate.of(2024, 12, 13);

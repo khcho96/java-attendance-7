@@ -103,6 +103,11 @@ public class Crew {
                 int minute = attendance.getTime().getMinute();
                 String state = attendance.getState();
 
+                if (state.equals("결석")) {
+                    return "\n" + month + "월 " + day + "일 " + dayOfWeek + "요일 "
+                            + "--:--" + " (" + state + ")";
+                }
+
                 return "\n" + month + "월 " + day + "일 " + dayOfWeek + "요일 "
                         + String.format("%02d:%02d", hour, minute) + " (" + state + ")";
             }
