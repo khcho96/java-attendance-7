@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ApplicationTest extends NsTest {
+
     @Test
     void 잘못된_형식_예외_테스트() {
         assertNowTest(
@@ -80,10 +81,6 @@ class ApplicationTest extends NsTest {
 
     @Override
     protected void runMain() {
-        try {
-            Application.main(new String[]{});
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Application.main(new String[]{});
     }
 }
