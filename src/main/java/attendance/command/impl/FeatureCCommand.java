@@ -2,11 +2,11 @@ package attendance.command.impl;
 
 import attendance.command.Command;
 import attendance.command.CommandResponse;
+import attendance.domain.Crew;
 import attendance.service.DemoService;
-import attendance.util.Retry;
 import attendance.view.InputView;
 import attendance.view.model.FeatureCModel;
-import java.util.List;
+import java.time.LocalDate;
 
 public class FeatureCCommand implements Command<FeatureCCommand> {
 
@@ -17,9 +17,10 @@ public class FeatureCCommand implements Command<FeatureCCommand> {
     }
 
     @Override
-    public CommandResponse execute() {
-        String input = InputView.readCommaSeparatedWordsForFeatureC();
-        List<String> words = Retry.retryUntilSuccess(() -> service.executeFeatureC(input));
-        return CommandResponse.keepGoing(new FeatureCModel(words));
+    public CommandResponse execute(LocalDate now) {
+        String name = InputView.readName();
+        Crew crew = service.getCrew(name);
+
+        return CommandResponse.keepGoing(new FeatureCModel(crew, now));
     }
 }

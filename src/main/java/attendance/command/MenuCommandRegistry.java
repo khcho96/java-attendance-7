@@ -3,9 +3,9 @@ package attendance.command;
 import attendance.command.impl.FeatureACommand;
 import attendance.command.impl.FeatureBCommand;
 import attendance.command.impl.FeatureCCommand;
-import attendance.command.impl.FeatureDCommand;
 import attendance.command.impl.QuitCommand;
 import attendance.service.DemoService;
+import java.time.LocalDate;
 import java.util.EnumMap;
 
 public class MenuCommandRegistry {
@@ -21,12 +21,12 @@ public class MenuCommandRegistry {
         map.put(MenuOption.A, new FeatureACommand(service));
         map.put(MenuOption.B, new FeatureBCommand(service));
         map.put(MenuOption.C, new FeatureCCommand(service));
-        map.put(MenuOption.D, new FeatureDCommand(service));
+//        map.put(MenuOption.D, new FeatureDCommand(service));
         map.put(MenuOption.QUIT, new QuitCommand());
         return new MenuCommandRegistry(map);
     }
 
-    public CommandResponse execute(MenuOption option) {
-        return commands.get(option).execute();
+    public CommandResponse execute(MenuOption option, LocalDate now) {
+        return commands.get(option).execute(now);
     }
 }

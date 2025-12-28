@@ -1,8 +1,8 @@
 package attendance.view.model;
 
-import java.util.List;
+import java.time.LocalDate;
 
-public record FeatureCModel(List<String> words) implements ViewModel {
+public record FeatureCModel(attendance.domain.Crew crew, LocalDate now) implements ViewModel {
     @Override
     public void accept(ViewModelVisitor visitor) {
         visitor.visit(this);

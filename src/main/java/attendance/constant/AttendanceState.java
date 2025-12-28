@@ -19,8 +19,13 @@ public enum AttendanceState {
 
     public static AttendanceState from(LocalDateTime dateTime) {
         return Arrays.stream(values())
-                .filter(state -> Standard.from(dateTime).getTime().plusMinutes(state.lateTime).isAfter(dateTime.toLocalTime()))
+                .filter(state -> Standard.from(dateTime).getTime().plusMinutes(state.lateTime)
+                        .isBefore(dateTime.toLocalTime()))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_INPUT.getErrorMessage()));
+                .orElse(ATTENDANCE);
+    }
+
+    public String getName() {
+        return name;
     }
 }

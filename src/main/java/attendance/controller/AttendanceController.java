@@ -5,7 +5,6 @@ import attendance.command.Flow;
 import attendance.command.MenuCommandRegistry;
 import attendance.command.MenuOption;
 import attendance.service.DemoService;
-import attendance.util.Retry;
 import attendance.util.file.FileReader;
 import attendance.view.InputView;
 import attendance.view.OutputView;
@@ -28,11 +27,14 @@ public class AttendanceController {
 
     public void run() throws IOException {
 
-        registerFileInfo();
+//        LocalDate now = DateTimes.now().toLocalDate();
+        LocalDate now = LocalDate.of(2024,12,13);
+        registerFileInfo(now);
 
         while (true) {
-            MenuOption option = Retry.retryUntilSuccess(() -> MenuOption.from(InputView.readMenuSelection()));
-            CommandResponse response = registry.execute(option);
+            String selection = InputView.readMenuSelection(now);
+            MenuOption option = MenuOption.from(selection);
+            CommandResponse response = registry.execute(option, now);
 
             if (response.flow() == Flow.EXIT) {
                 return;
@@ -42,12 +44,13 @@ public class AttendanceController {
         }
     }
 
-    private void registerFileInfo() throws IOException {
+    private void registerFileInfo(LocalDate now) throws IOException {
         FileReader fileReader = new FileReader("src/main/resources/attendances.csv");
         List<String> lines = fileReader.readLines();
         List<String> names = new ArrayList<>();
         List<LocalDateTime> dateTimes = new ArrayList<>();
 
+        lines.removeFirst();
         for (String line : lines) {
             String[] split = line.split(",");
             String name = split[0];
@@ -59,6 +62,6 @@ public class AttendanceController {
             LocalDateTime localDateTime = LocalDateTime.of(LocalDate.parse(dateFormat), LocalTime.parse(timeFormat));
             dateTimes.add(localDateTime);
         }
-        service.registerFileInfo(names, dateTimes);
+        service.registerFileInfo(now, names, dateTimes);
     }
 }
