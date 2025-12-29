@@ -1,32 +1,31 @@
 package attendance.command;
 
-import attendance.command.impl.FeatureACommand;
-import attendance.command.impl.FeatureBCommand;
-import attendance.command.impl.FeatureCCommand;
-import attendance.command.impl.QuitCommand;
+import attendance.command.impl.CheckCommand;
+import attendance.command.impl.ModificationCommand;
+import attendance.command.impl.HistoryCommand;
+import attendance.command.impl.DangerCommand;
 import attendance.service.DemoService;
 import java.time.LocalDate;
 import java.util.EnumMap;
 
 public class MenuCommandRegistry {
 
-    private final EnumMap<MenuOption, Command<? extends Command<?>>> commands;
+    private final EnumMap<MenuOption, Command> commands;
 
-    private MenuCommandRegistry(EnumMap<MenuOption, Command<? extends Command<?>>> commands) {
+    private MenuCommandRegistry(EnumMap<MenuOption, Command> commands) {
         this.commands = commands;
     }
 
     public static MenuCommandRegistry defaultRegistry(DemoService service) {
-        EnumMap<MenuOption, Command<? extends Command<?>>> map = new EnumMap<>(MenuOption.class);
-        map.put(MenuOption.A, new FeatureACommand(service));
-        map.put(MenuOption.B, new FeatureBCommand(service));
-        map.put(MenuOption.C, new FeatureCCommand(service));
-//        map.put(MenuOption.D, new FeatureDCommand(service));
-        map.put(MenuOption.QUIT, new QuitCommand());
+        EnumMap<MenuOption, Command> map = new EnumMap<>(MenuOption.class);
+        map.put(MenuOption.A, new CheckCommand(service));
+        map.put(MenuOption.B, new ModificationCommand(service));
+        map.put(MenuOption.C, new HistoryCommand(service));
+        map.put(MenuOption.D, new DangerCommand(service));
         return new MenuCommandRegistry(map);
     }
 
-    public CommandResponse execute(MenuOption option, LocalDate now) {
-        return commands.get(option).execute(now);
+    public void execute(MenuOption option, LocalDate now) {
+        commands.get(option).execute(now);
     }
 }

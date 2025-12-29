@@ -53,4 +53,8 @@ public class Crews {
             crew.addEmptyAttendance(now);
         }
     }
+
+    public List<Crew> getCrews() {
+        return crews;
+    }
 }

@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Crew {
+public class Crew implements Comparable<Crew> {
 
     private final String name;
     private final Map<LocalDate, LocalTime> dateTimes;
@@ -66,7 +66,7 @@ public class Crew {
                 continue;
             }
 
-            dateTimes.putIfAbsent(date, LocalTime.of(0,0));
+            dateTimes.putIfAbsent(date, LocalTime.of(0, 0));
             attendanceStates.putIfAbsent(date, AttendanceState.ABSENCE);
         }
     }
@@ -74,42 +74,32 @@ public class Crew {
     private boolean isHoliday(LocalDate date) {
         return date.getDayOfWeek().equals(DayOfWeek.SATURDAY)
                 || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)
-                || date.equals(LocalDate.of(2024,12,25));
+                || date.equals(LocalDate.of(2024, 12, 25));
     }
 
-    public int getAttendanceCount(LocalDate now) {
-        AttendanceState tempState = attendanceStates.remove(now);
-
-        int count = (int) attendanceStates.values().stream()
-                .filter(attendanceState -> attendanceState.equals(AttendanceState.ATTENDANCE))
-                .count();
-
-        attendanceStates.put(now, tempState);
-
-        return count;
+    public int getAttendanceCount() {
+        return getCount(AttendanceState.ATTENDANCE);
     }
 
-    public int getLateCount(LocalDate now) {
-        AttendanceState tempState = attendanceStates.remove(now);
-
-        int count = (int) attendanceStates.values().stream()
-                .filter(attendanceState -> attendanceState.equals(AttendanceState.LATE))
-                .count();
-
-        attendanceStates.put(now, tempState);
-
-        return count;
+    public int getLateCount() {
+        return getCount(AttendanceState.LATE);
     }
 
-    public int getAbsenceCount(LocalDate now) {
-        AttendanceState tempState = attendanceStates.remove(now);
+    public int getAbsenceCount() {
+        return getCount(AttendanceState.ABSENCE);
+    }
 
-        int count = (int) attendanceStates.values().stream()
-                .filter(attendanceState -> attendanceState.equals(AttendanceState.ABSENCE))
+    private int getCount(AttendanceState attendance) {
+        return (int) attendanceStates.values().stream()
+                .filter(attendanceState -> attendanceState.equals(attendance))
                 .count();
+    }
 
-        attendanceStates.put(now, tempState);
+    @Override
+    public int compareTo(Crew crew) {
+        Integer thisCount = this.getAbsenceCount() + this.getLateCount() / 3;
+        Integer count = crew.getAbsenceCount() + crew.getLateCount() / 3;
 
-        return count;
+        return -1 * thisCount.compareTo(count);
     }
 }

@@ -1,26 +1,25 @@
 package attendance.command.impl;
 
 import attendance.command.Command;
-import attendance.command.CommandResponse;
 import attendance.domain.Crew;
 import attendance.service.DemoService;
 import attendance.util.InputParser;
 import attendance.view.InputView;
-import attendance.view.model.FeatureBModel;
+import attendance.view.OutputView;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class FeatureBCommand implements Command<FeatureBCommand> {
+public class ModificationCommand implements Command {
 
     private final DemoService service;
 
-    public FeatureBCommand(DemoService service) {
+    public ModificationCommand(DemoService service) {
         this.service = service;
     }
 
     @Override
-    public CommandResponse execute(LocalDate now) {
+    public void execute(LocalDate now) {
         String name = InputView.readNameForModification();
         Crew crew = service.getCrew(name);
 
@@ -33,6 +32,6 @@ public class FeatureBCommand implements Command<FeatureBCommand> {
         LocalDateTime dateTime = LocalDateTime.of(date, modificationTime);
         LocalDateTime oldDateTime = service.modifyAttendance(crew, dateTime);
 
-        return CommandResponse.keepGoing(new FeatureBModel(oldDateTime, dateTime, crew.getAttendanceState(date)));
+        OutputView.print2(oldDateTime, dateTime, crew.getAttendanceState(date));
     }
 }

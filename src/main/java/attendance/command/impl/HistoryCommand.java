@@ -1,26 +1,25 @@
 package attendance.command.impl;
 
 import attendance.command.Command;
-import attendance.command.CommandResponse;
 import attendance.domain.Crew;
 import attendance.service.DemoService;
 import attendance.view.InputView;
-import attendance.view.model.FeatureCModel;
+import attendance.view.OutputView;
 import java.time.LocalDate;
 
-public class FeatureCCommand implements Command<FeatureCCommand> {
+public class HistoryCommand implements Command {
 
     private final DemoService service;
 
-    public FeatureCCommand(DemoService service) {
+    public HistoryCommand(DemoService service) {
         this.service = service;
     }
 
     @Override
-    public CommandResponse execute(LocalDate now) {
+    public void execute(LocalDate now) {
         String name = InputView.readName();
         Crew crew = service.getCrew(name);
 
-        return CommandResponse.keepGoing(new FeatureCModel(crew, now));
+        OutputView.print3(crew, now);
     }
 }

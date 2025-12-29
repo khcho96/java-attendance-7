@@ -1,13 +1,11 @@
 package attendance.controller;
 
-import attendance.command.CommandResponse;
-import attendance.command.Flow;
 import attendance.command.MenuCommandRegistry;
 import attendance.command.MenuOption;
 import attendance.service.DemoService;
 import attendance.util.file.FileReader;
 import attendance.view.InputView;
-import attendance.view.OutputView;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,21 +25,23 @@ public class AttendanceController {
 
     public void run() throws IOException {
 
-//        LocalDate now = DateTimes.now().toLocalDate();
-        LocalDate now = LocalDate.of(2024,12,13);
+        LocalDate now = DateTimes.now().toLocalDate();
         registerFileInfo(now);
 
         while (true) {
-            String selection = InputView.readMenuSelection(now);
-            MenuOption option = MenuOption.from(selection);
-            CommandResponse response = registry.execute(option, now);
+            MenuOption option = getMenuOption(now);
 
-            if (response.flow() == Flow.EXIT) {
+            if (option.equals(MenuOption.QUIT)) {
                 return;
             }
 
-            OutputView.render(response.model());
+            registry.execute(option, now);
         }
+    }
+
+    private static MenuOption getMenuOption(LocalDate now) {
+        String selection = InputView.readMenuSelection(now);
+        return MenuOption.from(selection);
     }
 
     private void registerFileInfo(LocalDate now) throws IOException {
