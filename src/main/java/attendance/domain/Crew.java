@@ -66,7 +66,7 @@ public class Crew implements Comparable<Crew> {
                 continue;
             }
 
-            dateTimes.putIfAbsent(date, LocalTime.of(0, 0));
+            dateTimes.putIfAbsent(date, LocalTime.MIDNIGHT);
             attendanceStates.putIfAbsent(date, AttendanceState.ABSENCE);
         }
     }

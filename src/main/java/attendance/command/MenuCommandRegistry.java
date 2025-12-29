@@ -4,7 +4,7 @@ import attendance.command.impl.CheckCommand;
 import attendance.command.impl.ModificationCommand;
 import attendance.command.impl.HistoryCommand;
 import attendance.command.impl.DangerCommand;
-import attendance.service.DemoService;
+import attendance.service.AttendanceService;
 import java.time.LocalDate;
 import java.util.EnumMap;
 
@@ -16,7 +16,7 @@ public class MenuCommandRegistry {
         this.commands = commands;
     }
 
-    public static MenuCommandRegistry defaultRegistry(DemoService service) {
+    public static MenuCommandRegistry defaultRegistry(AttendanceService service) {
         EnumMap<MenuOption, Command> map = new EnumMap<>(MenuOption.class);
         map.put(MenuOption.A, new CheckCommand(service));
         map.put(MenuOption.B, new ModificationCommand(service));

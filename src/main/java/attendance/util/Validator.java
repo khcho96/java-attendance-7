@@ -5,8 +5,6 @@ import java.time.LocalTime;
 
 public final class Validator {
 
-    private static final String CSV_FORMAT = "^ *([가-힣a-zA-Z]+-\\d+)+ *(, *([가-힣]+-\\d+)+ *)*$";
-    private static final String NUMBER_FORMAT = "\\d+";
     private static final String TIME_FORMAT = "([01]\\d|2[0-3]):[0-5]\\d";
     private static final LocalTime START_TIME = LocalTime.parse("08:00");
     private static final LocalTime END_TIME = LocalTime.parse("23:00");

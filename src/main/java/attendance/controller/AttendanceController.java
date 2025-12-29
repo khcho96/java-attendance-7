@@ -2,7 +2,7 @@ package attendance.controller;
 
 import attendance.command.MenuCommandRegistry;
 import attendance.command.MenuOption;
-import attendance.service.DemoService;
+import attendance.service.AttendanceService;
 import attendance.util.file.FileReader;
 import attendance.view.InputView;
 import camp.nextstep.edu.missionutils.DateTimes;
@@ -16,9 +16,9 @@ import java.util.List;
 public class AttendanceController {
 
     private final MenuCommandRegistry registry;
-    private final DemoService service;
+    private final AttendanceService service;
 
-    public AttendanceController(MenuCommandRegistry registry, DemoService service) {
+    public AttendanceController(MenuCommandRegistry registry, AttendanceService service) {
         this.registry = registry;
         this.service = service;
     }

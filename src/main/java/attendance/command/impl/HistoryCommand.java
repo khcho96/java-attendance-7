@@ -2,16 +2,16 @@ package attendance.command.impl;
 
 import attendance.command.Command;
 import attendance.domain.Crew;
-import attendance.service.DemoService;
+import attendance.service.AttendanceService;
 import attendance.view.InputView;
 import attendance.view.OutputView;
 import java.time.LocalDate;
 
 public class HistoryCommand implements Command {
 
-    private final DemoService service;
+    private final AttendanceService service;
 
-    public HistoryCommand(DemoService service) {
+    public HistoryCommand(AttendanceService service) {
         this.service = service;
     }
 

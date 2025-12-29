@@ -26,10 +26,6 @@ public enum Standard {
         return OTHERS;
     }
 
-    public DayOfWeek getDayOfWeek() {
-        return dayOfWeek;
-    }
-
     public LocalTime getTime() {
         return time;
     }

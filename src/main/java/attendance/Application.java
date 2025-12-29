@@ -2,12 +2,13 @@ package attendance;
 
 import attendance.command.MenuCommandRegistry;
 import attendance.controller.AttendanceController;
-import attendance.service.DemoService;
+import attendance.service.AttendanceService;
 import java.io.IOException;
 
 public class Application {
+
     public static void main(String[] args) {
-        DemoService service = new DemoService();
+        AttendanceService service = new AttendanceService();
         MenuCommandRegistry registry = MenuCommandRegistry.defaultRegistry(service);
         AttendanceController controller = new AttendanceController(registry, service);
         try {

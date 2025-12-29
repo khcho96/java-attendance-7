@@ -7,7 +7,6 @@ import java.util.Locale;
 
 public class InputView {
 
-    private static final String _REQUEST = "";
     private static final String SELECTION_REQUEST = "오늘은 %d월 %d일 %s요일입니다. 기능을 선택해주세요.\n"
             + "1. 출석 확인\n"
             + "2. 출석 수정\n"

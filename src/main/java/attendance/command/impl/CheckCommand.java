@@ -3,7 +3,7 @@ package attendance.command.impl;
 import attendance.command.Command;
 import attendance.constant.ErrorMessage;
 import attendance.domain.Crew;
-import attendance.service.DemoService;
+import attendance.service.AttendanceService;
 import attendance.util.InputParser;
 import attendance.view.InputView;
 import attendance.view.OutputView;
@@ -16,9 +16,9 @@ import java.util.Locale;
 
 public class CheckCommand implements Command {
 
-    private final DemoService service;
+    private final AttendanceService service;
 
-    public CheckCommand(DemoService service) {
+    public CheckCommand(AttendanceService service) {
         this.service = service;
     }
 

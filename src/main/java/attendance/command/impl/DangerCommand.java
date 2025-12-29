@@ -3,16 +3,16 @@ package attendance.command.impl;
 import attendance.command.Command;
 import attendance.constant.DangerState;
 import attendance.domain.Crew;
-import attendance.service.DemoService;
+import attendance.service.AttendanceService;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DangerCommand implements Command {
 
-    private final DemoService service;
+    private final AttendanceService service;
 
-    public DangerCommand(DemoService service) {
+    public DangerCommand(AttendanceService service) {
         this.service = service;
     }
 
