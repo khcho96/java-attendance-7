@@ -75,4 +75,14 @@ public class Crews {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NO_EXIST_NAME_ERROR.getErrorMessage()));
     }
+
+    public List<Crew> getDangers() {
+        List<Crew> dangers = new ArrayList<>();
+        for (Crew crew : crews) {
+            if (crew.isDangerCrew()) {
+                dangers.add(crew);
+            }
+        }
+        return dangers;
+    }
 }

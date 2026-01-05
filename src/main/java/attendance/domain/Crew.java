@@ -102,4 +102,8 @@ public class Crew {
     public String getDangerState() {
         return Danger.from(getAbsenceCount() + getLateCount() / 3).getName();
     }
+
+    public int getAbsenceLateCount() {
+        return getAbsenceCount() + getLateCount() / 3;
+    }
 }

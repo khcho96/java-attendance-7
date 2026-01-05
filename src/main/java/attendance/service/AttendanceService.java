@@ -65,4 +65,8 @@ public class AttendanceService {
         Crew crew = crews.getCrew(name);
         return RecordQueryResult.from(crew);
     }
+
+    public List<Crew> getDangers() {
+        return crews.getDangers();
+    }
 }

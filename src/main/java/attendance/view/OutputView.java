@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -71,5 +72,18 @@ public class OutputView {
         if (crew.isDangerCrew()) {
             System.out.printf("\n%s 대상자입니다.\n", crew.getDangerState());
         }
+    }
+
+    public static void printDangers(List<Crew> dangers) {
+        System.out.println("\n제적 위험자 조회 결과");
+        dangers.sort(Comparator.comparingInt(Crew::getAbsenceLateCount).reversed()
+                .thenComparing(Crew::getAbsenceCount).reversed()
+                .thenComparing(Crew::getLateCount).reversed()
+                .thenComparing(Crew::getName));
+        for (Crew danger : dangers) {
+            System.out.printf("- %s: 결석 %d회, 지각 %d회 (%s)\n",
+                    danger.getName(), danger.getAbsenceCount(), danger.getLateCount(), danger.getDangerState());
+        }
+        System.out.println();
     }
 }

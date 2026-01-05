@@ -1,7 +1,10 @@
 package attendance.command.impl;
 
 import attendance.command.Command;
+import attendance.domain.Crew;
 import attendance.service.AttendanceService;
+import attendance.view.OutputView;
+import java.util.List;
 
 public class DangerQueryCommand implements Command {
 
@@ -13,6 +16,8 @@ public class DangerQueryCommand implements Command {
 
     @Override
     public void execute() {
+        List<Crew> dangers = service.getDangers();
 
+        OutputView.printDangers(dangers);
     }
 }
