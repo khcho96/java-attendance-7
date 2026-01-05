@@ -3,6 +3,7 @@ package attendance.domain;
 import static java.util.Locale.KOREA;
 
 import camp.nextstep.edu.missionutils.DateTimes;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -44,12 +45,17 @@ public class Crews {
         LocalDate now = DateTimes.now().toLocalDate();
         for (LocalDate date = LocalDate.of(24,12,1); date.isBefore(now) ; date.plusDays(1)) {
 
+            if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY || date.isEqual(
+                    LocalDate.of(24,12,25))) {
+                continue;
+            }
+
             if (dateTimes.containsKey(date)) { // 해당 날짜 출석 기록이 있으면
                 crew.addAttendanceRecord(dateTimes.get(date));
                 continue;
             }
 
-            crew.addAttendanceRecord(LocalDateTime.of(date, LocalTime.of(22,59)));
+            crew.addAttendanceRecord(LocalDateTime.of(date, LocalTime.of(23,59)));
         }
         return crew;
     }
