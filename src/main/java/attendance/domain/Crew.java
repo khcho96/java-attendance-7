@@ -1,8 +1,10 @@
 package attendance.domain;
 
 import attendance.constant.Check;
+import attendance.constant.ErrorMessage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,7 +14,7 @@ public class Crew {
     private final String name;
     private final List<Attendance> attendances;
 
-    public Crew(String name) {
+    private Crew(String name) {
         this.name = name;
         this.attendances = new ArrayList<>();
     }
@@ -47,5 +49,14 @@ public class Crew {
     public boolean containsDate(LocalDate now) {
         return attendances.stream()
                 .anyMatch(attendance -> attendance.getDate().isEqual(now));
+    }
+
+    public LocalTime modifyRecord(LocalDate date, LocalTime time) {
+        Attendance record = attendances.stream()
+                .filter(attendance -> attendance.getDate().isEqual(date))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        ErrorMessage.NO_EXIST_ATTENDANCE_CHECK_RECORD.getErrorMessage()));
+        return record.modifyTime(time);
     }
 }

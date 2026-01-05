@@ -2,7 +2,10 @@ package attendance.view;
 
 import attendance.constant.Check;
 import attendance.dto.CheckResult;
+import attendance.dto.ModificationResult;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -19,14 +22,22 @@ public class OutputView {
     private OutputView() {
     }
 
-    public static void printErrorMessage(IllegalArgumentException e) {
-        System.out.println(e.getMessage());
-    }
-
     public static void printCheckResult(CheckResult checkResult) {
         Check check = checkResult.check();
         LocalDateTime dateTime = checkResult.dateTime();
 
         System.out.printf("\n%s (%s)\n", dateTime.format(DATETIME_FMT), check.getName());
+    }
+
+    public static void printModificationResult(ModificationResult modificationResult) {
+        LocalDate date = modificationResult.date();
+        LocalTime oldTime = modificationResult.oldTime();
+        LocalTime newTime = modificationResult.newTime();
+
+        System.out.printf("\n%s %s (%s) -> %s (%s) 수정 완료!\n",
+                date.format(DATE_FMT),
+                oldTime.format(TIME_FMT), Check.from(LocalDateTime.of(date, oldTime)).getName(),
+                newTime.format(TIME_FMT), Check.from(LocalDateTime.of(date, newTime)).getName()
+        );
     }
 }

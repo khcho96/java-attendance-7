@@ -1,6 +1,6 @@
 package attendance.util;
 
-import main.java.lotto.constant.ErrorMessage;
+import attendance.constant.ErrorMessage;
 
 public final class NumberConvertor {
 

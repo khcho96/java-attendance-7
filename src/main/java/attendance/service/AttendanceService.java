@@ -6,6 +6,7 @@ import attendance.constant.OperationTime;
 import attendance.domain.Crew;
 import attendance.domain.Crews;
 import attendance.dto.CheckResult;
+import attendance.dto.ModificationResult;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -40,5 +41,22 @@ public class AttendanceService {
         if (time.isBefore(OperationTime.START.getTime()) || time.isAfter(OperationTime.END.getTime())) {
             throw new IllegalArgumentException(ErrorMessage.NO_OPERATION_TIME_ERROR.getErrorMessage());
         }
+    }
+
+    public void validateModificationPossibleName(String name) {
+        crews.getCrew(name);
+    }
+
+    public void validateModificationPossibleDate(LocalDate now, LocalDate date) {
+        if (date.isAfter(now)) {
+            throw new IllegalArgumentException(ErrorMessage.FUTURE_DAY_ERROR.getErrorMessage());
+        }
+    }
+
+    public ModificationResult modifyRecord(String name, LocalDate date, LocalTime newTime) {
+        Crew crew = crews.getCrew(name);
+        LocalTime oldTime = crew.modifyRecord(date, newTime);
+
+        return ModificationResult.of(date, oldTime, newTime);
     }
 }

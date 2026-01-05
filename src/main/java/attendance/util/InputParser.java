@@ -1,6 +1,7 @@
 package attendance.util;
 
 import attendance.command.MenuOption;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -36,7 +37,9 @@ public final class InputParser {
 
         Validator.validateDayFormat(rawInput);
 
-        return LocalDate.of(24,12, NumberConvertor.convertToNumber(rawInput));
+        LocalDate now = DateTimes.now().toLocalDate();
+        return LocalDate.of(2024, 12, NumberConvertor.convertToNumber(rawInput));
+//        return LocalDate.of(now.getYear(), now.getMonthValue(), NumberConvertor.convertToNumber(rawInput));
     }
 
     public static Map<String, List<String>> getAttendanceRecords(List<String> readLines) {
@@ -48,7 +51,7 @@ public final class InputParser {
                 attendanceRecords.get(split[0]).add(split[1]);
                 continue;
             }
-            attendanceRecords.put(split[0], new ArrayList<>());
+            attendanceRecords.put(split[0], new ArrayList<>(List.of(split[1])));
         }
         return attendanceRecords;
     }

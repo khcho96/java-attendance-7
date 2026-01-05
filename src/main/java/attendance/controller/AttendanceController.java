@@ -6,7 +6,6 @@ import attendance.service.AttendanceService;
 import attendance.util.InputParser;
 import attendance.util.file.FileReader;
 import attendance.view.InputView;
-import camp.nextstep.edu.missionutils.DateTimes;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,8 +23,8 @@ public class AttendanceController {
 
     public void run() throws IOException {
         registerFileInfo();
-        LocalDate now = DateTimes.now().toLocalDate();
-
+//        LocalDate now = DateTimes.now().toLocalDate();
+        LocalDate now = LocalDate.of(2024, 12, 13);
         while (true) {
             MenuOption option = readOption(now);
 
