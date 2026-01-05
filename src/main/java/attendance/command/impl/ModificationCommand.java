@@ -20,7 +20,7 @@ public class ModificationCommand implements Command {
     @Override
     public void execute() {
         String name = InputParser.parseName(InputView.readModificationName());
-        service.validateModificationPossibleName(name);
+        service.validateNameExists(name);
 
         LocalDate date = InputParser.parseDay(InputView.readModificationDay());
 //        LocalDate now = DateTimes.now().toLocalDate();

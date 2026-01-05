@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import attendance.constant.Check;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -41,5 +42,21 @@ public class Attendance implements Comparable<Attendance> {
         }
 
         return 1;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public boolean isAttendance() {
+        return Check.from(this.dateTime).equals(Check.ATTENDANCE);
+    }
+
+    public boolean isLate() {
+        return Check.from(this.dateTime).equals(Check.LATE);
+    }
+
+    public boolean isAbsence() {
+        return Check.from(this.dateTime).equals(Check.ABSENCE);
     }
 }

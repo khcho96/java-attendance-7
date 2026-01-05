@@ -1,6 +1,7 @@
 package attendance.domain;
 
 import attendance.constant.Check;
+import attendance.constant.Danger;
 import attendance.constant.ErrorMessage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -58,5 +59,47 @@ public class Crew {
                 .orElseThrow(() -> new IllegalArgumentException(
                         ErrorMessage.NO_EXIST_ATTENDANCE_CHECK_RECORD.getErrorMessage()));
         return record.modifyTime(time);
+    }
+
+    public List<Attendance> getAttendances() {
+        return attendances;
+    }
+
+    public int getAttendanceCount() {
+        int count = 0;
+        for (Attendance attendance : attendances) {
+            if (attendance.isAttendance()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int getLateCount() {
+        int count = 0;
+        for (Attendance attendance : attendances) {
+            if (attendance.isLate()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int getAbsenceCount() {
+        int count = 0;
+        for (Attendance attendance : attendances) {
+            if (attendance.isAbsence()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public boolean isDangerCrew() {
+        return getAbsenceCount() + getLateCount() / 3 >= 2;
+    }
+
+    public String getDangerState() {
+        return Danger.from(getAbsenceCount() + getLateCount() / 3).getName();
     }
 }

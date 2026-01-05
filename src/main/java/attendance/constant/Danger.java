@@ -22,7 +22,7 @@ public enum Danger {
         return Arrays.stream(values())
                 .filter(danger -> danger.absenceCount <= count)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.FORMAT_ERROR.getErrorMessage()));
+                .orElse(NONE);
     }
 
     public String getName() {

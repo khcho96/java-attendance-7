@@ -7,6 +7,7 @@ import attendance.domain.Crew;
 import attendance.domain.Crews;
 import attendance.dto.CheckResult;
 import attendance.dto.ModificationResult;
+import attendance.dto.RecordQueryResult;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -43,7 +44,7 @@ public class AttendanceService {
         }
     }
 
-    public void validateModificationPossibleName(String name) {
+    public void validateNameExists(String name) {
         crews.getCrew(name);
     }
 
@@ -58,5 +59,10 @@ public class AttendanceService {
         LocalTime oldTime = crew.modifyRecord(date, newTime);
 
         return ModificationResult.of(date, oldTime, newTime);
+    }
+
+    public RecordQueryResult getAttendanceRecords(String name) {
+        Crew crew = crews.getCrew(name);
+        return RecordQueryResult.from(crew);
     }
 }

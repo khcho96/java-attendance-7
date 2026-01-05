@@ -1,12 +1,16 @@
 package attendance.view;
 
 import attendance.constant.Check;
+import attendance.domain.Attendance;
+import attendance.domain.Crew;
 import attendance.dto.CheckResult;
 import attendance.dto.ModificationResult;
+import attendance.dto.RecordQueryResult;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 
 public class OutputView {
@@ -39,5 +43,33 @@ public class OutputView {
                 oldTime.format(TIME_FMT), Check.from(LocalDateTime.of(date, oldTime)).getName(),
                 newTime.format(TIME_FMT), Check.from(LocalDateTime.of(date, newTime)).getName()
         );
+    }
+
+    public static void printRecordQuery(RecordQueryResult queryResult) {
+        Crew crew = queryResult.crew();
+        List<Attendance> attendances = crew.getAttendances();
+        attendances.sort(null);
+
+        System.out.println("이번 달 빙티의 출석 기록입니다.\n");
+        for (Attendance attendance : attendances) {
+            LocalDateTime dateTime = attendance.getDateTime();
+            LocalDate date = dateTime.toLocalDate();
+
+            if (!dateTime.toLocalTime().isBefore(LocalTime.of(23, 59))) {
+                System.out.printf("%s --:-- (%s)", date.format(DATE_FMT),
+                        Check.from(attendance.getDateTime()).getName());
+                continue;
+            }
+            System.out.printf("%s (%s)", dateTime.format(DATETIME_FMT), Check.from(attendance.getDateTime()).getName());
+        }
+        System.out.println();
+
+        System.out.printf("출석: %d회\n", crew.getAttendanceCount());
+        System.out.printf("지각: %d회\n", crew.getLateCount());
+        System.out.printf("결석: %d회\n", crew.getAbsenceCount());
+
+        if (crew.isDangerCrew()) {
+            System.out.printf("\n%s 대상자입니다.\n", crew.getDangerState());
+        }
     }
 }
