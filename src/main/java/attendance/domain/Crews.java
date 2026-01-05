@@ -2,12 +2,14 @@ package attendance.domain;
 
 import static java.util.Locale.KOREA;
 
+import attendance.constant.ErrorMessage;
+import attendance.constant.Holiday;
 import camp.nextstep.edu.missionutils.DateTimes;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +19,11 @@ public class Crews {
     private static final DateTimeFormatter DATETIME_FMT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", KOREA);
 
-    private List<Crew> crews;
+    private final List<Crew> crews;
+
+    public Crews() {
+        crews = new ArrayList<>();
+    }
 
     public static Crews newInstance() {
         return new Crews();
@@ -43,10 +49,8 @@ public class Crews {
     private Crew setCrew(String crewName, Map<LocalDate, LocalDateTime> dateTimes) {
         Crew crew = Crew.from(crewName);
         LocalDate now = DateTimes.now().toLocalDate();
-        for (LocalDate date = LocalDate.of(24,12,1); date.isBefore(now) ; date.plusDays(1)) {
-
-            if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY || date.isEqual(
-                    LocalDate.of(24,12,25))) {
+        for (LocalDate date = LocalDate.of(2024, 12, 1); date.isBefore(now); date = date.plusDays(1)) {
+            if (isHoliDay(date)) {
                 continue;
             }
 
@@ -55,8 +59,20 @@ public class Crews {
                 continue;
             }
 
-            crew.addAttendanceRecord(LocalDateTime.of(date, LocalTime.of(23,59)));
+            crew.addAttendanceRecord(LocalDateTime.of(date, LocalTime.of(23, 59)));
         }
         return crew;
+    }
+
+    private static boolean isHoliDay(LocalDate date) {
+        return !Holiday.from(date).equals(Holiday.NONE);
+    }
+
+    public Crew getCrew(String findName) {
+        Crew findCrew = Crew.from(findName);
+        return crews.stream()
+                .filter(crew -> crew.equals(findCrew))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NO_EXIST_NAME_ERROR.getErrorMessage()));
     }
 }

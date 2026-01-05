@@ -44,7 +44,11 @@ public final class InputParser {
         Map<String, List<String>> attendanceRecords = new HashMap<>();
         for (String readLine : readLines) {
             String[] split = readLine.split(DELIMITER);
-            attendanceRecords.getOrDefault(split[0], new ArrayList<>()).add(split[1]);
+            if (attendanceRecords.containsKey(split[0])) {
+                attendanceRecords.get(split[0]).add(split[1]);
+                continue;
+            }
+            attendanceRecords.put(split[0], new ArrayList<>());
         }
         return attendanceRecords;
     }
