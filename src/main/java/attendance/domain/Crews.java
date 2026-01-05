@@ -4,6 +4,7 @@ import static java.util.Locale.KOREA;
 
 import attendance.constant.ErrorMessage;
 import attendance.constant.Holiday;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -47,8 +48,8 @@ public class Crews {
 
     private Crew setCrew(String crewName, Map<LocalDate, LocalDateTime> dateTimes) {
         Crew crew = Crew.from(crewName);
-//        LocalDate now = DateTimes.now().toLocalDate();
-        LocalDate now = LocalDate.of(2024, 12, 13);
+        LocalDate now = DateTimes.now().toLocalDate();
+//        LocalDate now = LocalDate.of(2024, 12, 13);
         for (LocalDate date = LocalDate.of(2024, 12, 1); date.isBefore(now); date = date.plusDays(1)) {
             if (isHoliDay(date)) {
                 continue;

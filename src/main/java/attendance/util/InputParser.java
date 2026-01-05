@@ -38,8 +38,8 @@ public final class InputParser {
         Validator.validateDayFormat(rawInput);
 
         LocalDate now = DateTimes.now().toLocalDate();
-        return LocalDate.of(2024, 12, NumberConvertor.convertToNumber(rawInput));
-//        return LocalDate.of(now.getYear(), now.getMonthValue(), NumberConvertor.convertToNumber(rawInput));
+//        return LocalDate.of(2024, 12, NumberConvertor.convertToNumber(rawInput));
+        return LocalDate.of(now.getYear(), now.getMonthValue(), NumberConvertor.convertToNumber(rawInput));
     }
 
     public static Map<String, List<String>> getAttendanceRecords(List<String> readLines) {

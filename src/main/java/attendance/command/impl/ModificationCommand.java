@@ -6,6 +6,7 @@ import attendance.service.AttendanceService;
 import attendance.util.InputParser;
 import attendance.view.InputView;
 import attendance.view.OutputView;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -23,8 +24,8 @@ public class ModificationCommand implements Command {
         service.validateNameExists(name);
 
         LocalDate date = InputParser.parseDay(InputView.readModificationDay());
-//        LocalDate now = DateTimes.now().toLocalDate();
-        LocalDate now = LocalDate.of(2024, 12, 13);
+        LocalDate now = DateTimes.now().toLocalDate();
+//        LocalDate now = LocalDate.of(2024, 12, 13);
         service.validateModificationPossibleDate(now, date);
 
         LocalTime newTime = InputParser.parseTime(InputView.readModificationTime());

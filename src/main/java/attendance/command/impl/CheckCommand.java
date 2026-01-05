@@ -10,6 +10,7 @@ import attendance.service.AttendanceService;
 import attendance.util.InputParser;
 import attendance.view.InputView;
 import attendance.view.OutputView;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -27,8 +28,8 @@ public class CheckCommand implements Command {
 
     @Override
     public void execute() {
-//        LocalDate now = DateTimes.now().toLocalDate();
-        LocalDate now = LocalDate.of(2024, 12, 13);
+        LocalDate now = DateTimes.now().toLocalDate();
+//        LocalDate now = LocalDate.of(2024, 12, 13);
         if (isHoliday(now)) {
             throw new IllegalArgumentException(
                     ErrorMessage.NO_ATTENDANCE_DAY_ERROR.getErrorMessage(now.format(DATETIME_FMT)));
