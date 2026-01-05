@@ -6,9 +6,9 @@ import attendance.service.AttendanceService;
 import attendance.util.InputParser;
 import attendance.util.file.FileReader;
 import attendance.view.InputView;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +24,10 @@ public class AttendanceController {
 
     public void run() throws IOException {
         registerFileInfo();
+        LocalDate now = DateTimes.now().toLocalDate();
 
         while (true) {
-            MenuOption option = readOption();
+            MenuOption option = readOption(now);
 
             if (option.equals(MenuOption.QUIT)) {
                 return;
@@ -45,8 +46,7 @@ public class AttendanceController {
         service.registerFileInfo(attendanceRecords);
     }
 
-    private MenuOption readOption() {
-        String selection = InputView.readMenuSelection();
-        return MenuOption.from(selection);
+    private MenuOption readOption(LocalDate now) {
+        return InputParser.parseMenu(InputView.readMenuSelection(now));
     }
 }
