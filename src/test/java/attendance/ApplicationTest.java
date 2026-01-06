@@ -1,13 +1,12 @@
 package attendance;
 
-import camp.nextstep.edu.missionutils.test.NsTest;
-import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-
 import static camp.nextstep.edu.missionutils.test.Assertions.assertNowTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import camp.nextstep.edu.missionutils.test.NsTest;
+import java.time.LocalDate;
+import org.junit.jupiter.api.Test;
 
 class ApplicationTest extends NsTest {
     @Test
@@ -74,6 +73,54 @@ class ApplicationTest extends NsTest {
                 );
             },
             LocalDate.of(2024, 12, 13).atStartOfDay()
+        );
+    }
+
+    @Test
+    void 제적_위험자_조회_기능_테스트_12월_12일() {
+        assertNowTest(
+                () -> {
+                    run("4", "Q");
+                    assertThat(output()).contains(
+                            "제적 위험자 조회 결과\n"
+                                    + "- 빙티: 결석 2회, 지각 3회 (면담)\n"
+                                    + "- 이든: 결석 2회, 지각 3회 (면담)"
+                    );
+                },
+                LocalDate.of(2024, 12, 12).atStartOfDay()
+        );
+    }
+
+    @Test
+    void 제적_위험자_조회_기능_테스트_12월_13일() {
+        assertNowTest(
+                () -> {
+                    run("4", "Q");
+                    assertThat(output()).contains(
+                            "- 빙티: 결석 3회, 지각 3회 (면담)\n"
+                                    + "- 이든: 결석 2회, 지각 4회 (면담)\n"
+                                    + "- 빙봉: 결석 1회, 지각 5회 (경고)\n"
+                                    + "- 쿠키: 결석 2회, 지각 2회 (경고)"
+                    );
+                },
+                LocalDate.of(2024, 12, 13).atStartOfDay()
+        );
+    }
+
+    @Test
+    void 제적_위험자_조회_기능_테스트_12월_14일() {
+        assertNowTest(
+                () -> {
+                    run("4", "Q");
+                    assertThat(output()).contains(
+                            "- 빙티: 결석 3회, 지각 4회 (면담)\n"
+                                    + "- 빙봉: 결석 1회, 지각 6회 (면담)\n"
+                                    + "- 이든: 결석 2회, 지각 5회 (면담)\n"
+                                    + "- 쿠키: 결석 2회, 지각 3회 (면담)\n"
+                                    + "- 짱수: 결석 2회, 지각 0회 (경고)"
+                    );
+                },
+                LocalDate.of(2024, 12, 14).atStartOfDay()
         );
     }
 
