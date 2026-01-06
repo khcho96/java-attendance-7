@@ -1,22 +1,23 @@
 package attendance.view;
 
+import static java.util.Locale.KOREA;
+
 import attendance.constant.Check;
 import attendance.domain.Attendance;
 import attendance.domain.Crew;
 import attendance.dto.CheckResult;
 import attendance.dto.ModificationResult;
 import attendance.dto.RecordQueryResult;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 public class OutputView {
 
-    private static final Locale KOREA = Locale.KOREA;
     private static final DateTimeFormatter DATETIME_FMT =
             DateTimeFormatter.ofPattern("M월 dd일 E요일 HH:mm", KOREA);
     private static final DateTimeFormatter DATE_FMT =
@@ -51,17 +52,22 @@ public class OutputView {
         List<Attendance> attendances = crew.getAttendances();
         attendances.sort(null);
 
-        System.out.println("이번 달 빙티의 출석 기록입니다.\n");
+        System.out.printf("이번 달 %s의 출석 기록입니다.\n", crew.getName());
         for (Attendance attendance : attendances) {
             LocalDateTime dateTime = attendance.getDateTime();
             LocalDate date = dateTime.toLocalDate();
 
+            if (date.isEqual(DateTimes.now().toLocalDate())) {
+                continue;
+            }
+
             if (!dateTime.toLocalTime().isBefore(LocalTime.of(23, 59))) {
-                System.out.printf("%s --:-- (%s)", date.format(DATE_FMT),
+                System.out.printf("%s --:-- (%s)\n", date.format(DATE_FMT),
                         Check.from(attendance.getDateTime()).getName());
                 continue;
             }
-            System.out.printf("%s (%s)", dateTime.format(DATETIME_FMT), Check.from(attendance.getDateTime()).getName());
+            System.out.printf("%s (%s)\n", dateTime.format(DATETIME_FMT),
+                    Check.from(attendance.getDateTime()).getName());
         }
         System.out.println();
 
@@ -76,10 +82,14 @@ public class OutputView {
 
     public static void printDangers(List<Crew> dangers) {
         System.out.println("\n제적 위험자 조회 결과");
-        dangers.sort(Comparator.comparingInt(Crew::getAbsenceLateCount).reversed()
-                .thenComparing(Crew::getAbsenceCount).reversed()
-                .thenComparing(Crew::getLateCount).reversed()
-                .thenComparing(Crew::getName));
+        dangers.sort(
+                Comparator.comparingInt(Crew::getAbsenceLateCount).reversed()
+                .thenComparing(Comparator.comparingInt(Crew::getAbsenceCount).reversed())
+                .thenComparing(Comparator.comparingInt(Crew::getLateCount).reversed())
+                .thenComparing(Crew::getName)
+        );
+
+
         for (Crew danger : dangers) {
             System.out.printf("- %s: 결석 %d회, 지각 %d회 (%s)\n",
                     danger.getName(), danger.getAbsenceCount(), danger.getLateCount(), danger.getDangerState());
