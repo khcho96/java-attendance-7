@@ -102,4 +102,8 @@ public class AttendanceService {
     public Crew getAttendanceRecords(String name) {
         return crews.getCrew(name);
     }
+
+    public List<Crew> getDangers() {
+        return crews.getDangers();
+    }
 }

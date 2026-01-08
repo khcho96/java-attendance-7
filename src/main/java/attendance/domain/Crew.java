@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import attendance.constant.Danger;
 import attendance.constant.ErrorMessage;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -51,5 +52,13 @@ public class Crew {
 
     public int getAbsenceCount() {
         return attendance.getAbsenceCount();
+    }
+
+    public Danger getDangerState() {
+        return Danger.from(getAbsenceLateCount());
+    }
+
+    public int getAbsenceLateCount() {
+        return getAbsenceCount() + getLateCount() / 3;
     }
 }

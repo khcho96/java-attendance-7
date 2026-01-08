@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import attendance.constant.Danger;
 import attendance.constant.ErrorMessage;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -29,5 +30,11 @@ public class Crews {
                 .filter(crew -> crew.getName().equals(name))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NO_EXIST_NAME_ERROR.getErrorMessage()));
+    }
+
+    public List<Crew> getDangers() {
+        return new ArrayList<>(crews.stream()
+                .filter(crew -> !crew.getDangerState().equals(Danger.NONE))
+                .toList());
     }
 }

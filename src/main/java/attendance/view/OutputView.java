@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,17 +27,17 @@ public class OutputView {
     }
 
     public static void printCheckResult(LocalDate date, LocalTime time) {
-        System.out.printf("%s (%s)\n", LocalDateTime.of(date, time).format(DATETIME_FMT),
+        System.out.printf("%s (%s)\n\n", LocalDateTime.of(date, time).format(DATETIME_FMT),
                 AttendanceState.of(date, time).getName());
     }
 
     public static void printModificationResult(LocalDate date, LocalTime time, LocalTime oldTime) {
         if (oldTime.isAfter(LocalTime.of(23, 58))) {
-            System.out.printf("%s --:-- (결석) -> %s (%s) 수정 완료!\n", date.format(DATE_FMT),
+            System.out.printf("%s --:-- (결석) -> %s (%s) 수정 완료!\n\n", date.format(DATE_FMT),
                     time.format(TIME_FMT), AttendanceState.of(date, time).getName());
             return;
         }
-        System.out.printf("%s %s (%s) -> %s (%s) 수정 완료!\n", date.format(DATE_FMT),
+        System.out.printf("%s %s (%s) -> %s (%s) 수정 완료!\n\n", date.format(DATE_FMT),
                 oldTime.format(TIME_FMT), AttendanceState.of(date, oldTime).getName(),
                 time.format(TIME_FMT), AttendanceState.of(date, time).getName());
     }
@@ -62,9 +63,24 @@ public class OutputView {
         System.out.printf("지각: %d회\n", crew.getLateCount());
         System.out.printf("결석: %d회\n\n", crew.getAbsenceCount());
 
-        Danger danger = Danger.from(crew.getAbsenceCount() + crew.getLateCount() / 3);
-        if (!danger.equals(Danger.NONE)) {
-            System.out.printf("%s 대상자입니다.", danger.getName());
+        Danger dangerState = crew.getDangerState();
+        if (!dangerState.equals(Danger.NONE)) {
+            System.out.printf("%s 대상자입니다.\n", dangerState.getName());
         }
+        System.out.println();
+    }
+
+    public static void printDangers(List<Crew> dangers) {
+        dangers.sort(Comparator.comparingInt(Crew::getAbsenceLateCount).reversed()
+                .thenComparingInt(Crew::getAbsenceCount).reversed()
+                .thenComparingInt(Crew::getLateCount).reversed()
+                .thenComparing(Crew::getName));
+
+        System.out.println("제적 위험자 조회 결과");
+        for (Crew danger : dangers) {
+            System.out.printf("- %s: 결석 %d회, 지각 %d회 (%s)\n",
+                    danger.getName(), danger.getAbsenceCount(), danger.getLateCount(), danger.getDangerState().getName());
+        }
+        System.out.println();
     }
 }
