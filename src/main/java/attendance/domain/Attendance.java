@@ -47,4 +47,10 @@ public class Attendance {
     public void check(LocalDate date, LocalTime time) {
         attendances.put(date, time);
     }
+
+    public LocalTime modify(LocalDate date, LocalTime newTime) {
+        LocalTime oldTime = attendances.get(date);
+        attendances.put(date, newTime);
+        return oldTime;
+    }
 }

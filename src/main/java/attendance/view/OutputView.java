@@ -23,4 +23,8 @@ public class OutputView {
     public static void printCheckResult(LocalDate date, LocalTime time) {
         System.out.printf("%s (%s)\n", LocalDateTime.of(date,time).format(DATETIME_FMT), AttendanceState.of(date, time).getName());
     }
+
+    public static void printModificationResult(LocalDate date, LocalTime time, LocalTime oldTime) {
+
+    }
 }

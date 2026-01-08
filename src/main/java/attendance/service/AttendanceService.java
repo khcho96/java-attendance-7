@@ -93,4 +93,9 @@ public class AttendanceService {
     public void validateModificationPossible(LocalTime time) {
         validateOperationTime(time);
     }
+
+    public LocalTime modify(String name, LocalDate date, LocalTime newTime) {
+        Crew crew = crews.getCrew(name);
+        return crew.modify(date, newTime);
+    }
 }

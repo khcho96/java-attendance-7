@@ -32,4 +32,8 @@ public class Crew {
     public void check(LocalDate date, LocalTime time) {
         attendance.check(date, time);
     }
+
+    public LocalTime modify(LocalDate date, LocalTime newTime) {
+        return attendance.modify(date, newTime);
+    }
 }
