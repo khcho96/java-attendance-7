@@ -24,7 +24,7 @@ public class ModificationCommand implements Command {
         LocalDate date = InputParser.parseDate(InputView.readModifiedDate());
         service.validateModificationPossible(date);
 
-        LocalTime time = InputParser.parseTime(InputView.readTime());
+        LocalTime time = InputParser.parseTime(InputView.readModifiedTime());
         service.validateModificationPossible(time);
 
         service.modify(name, now, time);

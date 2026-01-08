@@ -80,13 +80,17 @@ public class AttendanceService {
     }
 
     public void validateModificationPossible(LocalDate date) {
-        if (isHoliday(date)) {
-            throw new IllegalArgumentException(
-                    ErrorMessage.NO_ATTENDANCE_DAY_ERROR.getErrorMessage(date.format(DATE_FMT)));
-        }
+        validateHoliday(date);
+        validateFutureDate(date);
+    }
 
+    private static void validateFutureDate(LocalDate date) {
         if (date.isAfter(DateTimes.now().toLocalDate())) {
             throw new IllegalArgumentException(ErrorMessage.FUTURE_DATE_ERROR.getErrorMessage());
         }
+    }
+
+    public void validateModificationPossible(LocalTime time) {
+        validateOperationTime(time);
     }
 }
