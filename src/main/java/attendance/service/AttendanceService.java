@@ -16,8 +16,8 @@ import java.util.Map;
 
 public class AttendanceService {
 
-    private static final LocalTime START_TIME = LocalTime.of(8,0);
-    private static final LocalTime END_TIME = LocalTime.of(23,0);
+    private static final LocalTime START_TIME = LocalTime.of(8, 0);
+    private static final LocalTime END_TIME = LocalTime.of(23, 0);
     private static final DateTimeFormatter DATETIME_FMT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", KOREA);
     private static final DateTimeFormatter DATE_FMT =
@@ -49,7 +49,8 @@ public class AttendanceService {
 
     public void validateHoliday(LocalDate date) {
         if (!Holiday.from(date).equals(Holiday.NONE)) {
-            throw new IllegalArgumentException(ErrorMessage.NO_ATTENDANCE_DAY_ERROR.getErrorMessage(date.format(DATE_FMT)));
+            throw new IllegalArgumentException(
+                    ErrorMessage.NO_ATTENDANCE_DAY_ERROR.getErrorMessage(date.format(DATE_FMT)));
         }
     }
 
@@ -58,8 +59,9 @@ public class AttendanceService {
         crew.validateCheckPossible(date);
     }
 
-    public void check(String name, LocalDate now, LocalTime time) {
-
+    public void check(String name, LocalDate date, LocalTime time) {
+        Crew crew = crews.getCrew(name);
+        crew.check(date, time);
     }
 
     public void validateOperationTime(LocalTime time) {

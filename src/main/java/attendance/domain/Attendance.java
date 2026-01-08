@@ -43,4 +43,8 @@ public class Attendance {
     public boolean contains(LocalDate date) {
         return attendances.containsKey(date);
     }
+
+    public void check(LocalDate date, LocalTime time) {
+        attendances.put(date, time);
+    }
 }

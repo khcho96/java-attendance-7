@@ -28,4 +28,8 @@ public class Crew {
             throw new IllegalArgumentException(ErrorMessage.ALREADY_ATTENDANCE_ERROR.getErrorMessage());
         }
     }
+
+    public void check(LocalDate date, LocalTime time) {
+        attendance.check(date, time);
+    }
 }
