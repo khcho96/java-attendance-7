@@ -51,8 +51,8 @@ public class AttendanceService {
         }
     }
 
-    public void check(String name, LocalDate date) {
+    public void validateCheckPossible(String name, LocalDate date) {
         Crew crew = crews.getCrew(name);
-        crew.check(date);
+        crew.validateCheckPossible(date);
     }
 }

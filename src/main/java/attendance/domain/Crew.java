@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import attendance.constant.ErrorMessage;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Map;
@@ -22,7 +23,9 @@ public class Crew {
         return name;
     }
 
-    public void check(LocalDate date) {
-        attendance.check(date);
+    public void validateCheckPossible(LocalDate date) {
+        if (attendance.contains(date)) {
+            throw new IllegalArgumentException(ErrorMessage.ALREADY_ATTENDANCE_ERROR.getErrorMessage());
+        }
     }
 }

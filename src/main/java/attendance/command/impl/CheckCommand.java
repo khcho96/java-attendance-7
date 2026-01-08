@@ -21,6 +21,8 @@ public class CheckCommand implements Command {
         service.validateHoliday(now);
 
         String name = InputParser.parseName(InputView.readName());
-        service.check(name, now);
+        service.validateCheckPossible(name, now);
+
+
     }
 }
