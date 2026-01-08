@@ -25,6 +25,13 @@ public class OutputView {
     }
 
     public static void printModificationResult(LocalDate date, LocalTime time, LocalTime oldTime) {
-
+        if (oldTime.isAfter(LocalTime.of(23,58))) {
+            System.out.printf("%s --:-- (결석) -> %s (%s) 수정 완료!\n", date.format(DATE_FMT),
+                    time.format(TIME_FMT), AttendanceState.of(date, time).getName());
+            return;
+        }
+        System.out.printf("%s %s (%s) -> %s (%s) 수정 완료!\n", date.format(DATE_FMT),
+                oldTime.format(TIME_FMT), AttendanceState.of(date, oldTime).getName(),
+                time.format(TIME_FMT), AttendanceState.of(date, time).getName());
     }
 }

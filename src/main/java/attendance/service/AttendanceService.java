@@ -42,7 +42,7 @@ public class AttendanceService {
                 continue;
             }
 
-            attendances.put(name, new HashMap<>());
+            attendances.put(name, new HashMap<>(Map.of(date, time)));
         }
 
         crews = Crews.from(attendances);
