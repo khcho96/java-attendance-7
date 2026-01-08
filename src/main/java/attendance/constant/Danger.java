@@ -18,9 +18,9 @@ public enum Danger {
         this.name = name;
     }
 
-    public static Danger from(int num) {
+    public static Danger from(int absenceCount) {
         return Arrays.stream(values())
-                .filter(danger -> danger.absenceCount <= num)
+                .filter(danger -> danger.absenceCount <= absenceCount)
                 .findFirst()
                 .orElse(NONE);
     }

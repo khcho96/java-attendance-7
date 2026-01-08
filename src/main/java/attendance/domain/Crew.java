@@ -36,4 +36,20 @@ public class Crew {
     public LocalTime modify(LocalDate date, LocalTime newTime) {
         return attendance.modify(date, newTime);
     }
+
+    public Map<LocalDate, LocalTime> getAttendanceRecords() {
+        return attendance.getRecords();
+    }
+
+    public int getAttendanceCount() {
+        return attendance.getAttendanceCount();
+    }
+
+    public int getLateCount() {
+        return attendance.getLateCount();
+    }
+
+    public int getAbsenceCount() {
+        return attendance.getAbsenceCount();
+    }
 }

@@ -2,7 +2,7 @@ package attendance.command;
 
 import attendance.command.impl.CheckCommand;
 import attendance.command.impl.ModificationCommand;
-import attendance.command.impl.FeatureCCommand;
+import attendance.command.impl.RecordQueryCommand;
 import attendance.command.impl.FeatureDCommand;
 import attendance.service.AttendanceService;
 import java.util.EnumMap;
@@ -19,7 +19,7 @@ public class MenuCommandRegistry {
         EnumMap<MenuOption, Command> map = new EnumMap<>(MenuOption.class);
         map.put(MenuOption.A, new CheckCommand(service));
         map.put(MenuOption.B, new ModificationCommand(service));
-        map.put(MenuOption.C, new FeatureCCommand(service));
+        map.put(MenuOption.C, new RecordQueryCommand(service));
         map.put(MenuOption.D, new FeatureDCommand(service));
         return new MenuCommandRegistry(map);
     }

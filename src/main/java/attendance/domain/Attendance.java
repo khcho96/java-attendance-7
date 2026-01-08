@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import attendance.constant.AttendanceState;
 import attendance.constant.Holiday;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
@@ -52,5 +53,36 @@ public class Attendance {
         LocalTime oldTime = attendances.get(date);
         attendances.put(date, newTime);
         return oldTime;
+    }
+
+    public Map<LocalDate, LocalTime> getRecords() {
+        Map<LocalDate, LocalTime> records = new HashMap<>(attendances);
+        records.remove(DateTimes.now().toLocalDate());
+
+        return records;
+    }
+
+    public int getAttendanceCount() {
+        Map<LocalDate, LocalTime> records = getRecords();
+
+        return (int) records.keySet().stream()
+                .filter(date -> AttendanceState.of(date, records.get(date)).equals(AttendanceState.ATTENDANCE))
+                .count();
+    }
+
+    public int getLateCount() {
+        Map<LocalDate, LocalTime> records = getRecords();
+
+        return (int) records.keySet().stream()
+                .filter(date -> AttendanceState.of(date, records.get(date)).equals(AttendanceState.LATE))
+                .count();
+    }
+
+    public int getAbsenceCount() {
+        Map<LocalDate, LocalTime> records = getRecords();
+
+        return (int) records.keySet().stream()
+                .filter(date -> AttendanceState.of(date, records.get(date)).equals(AttendanceState.ABSENCE))
+                .count();
     }
 }

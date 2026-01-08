@@ -98,4 +98,8 @@ public class AttendanceService {
         Crew crew = crews.getCrew(name);
         return crew.modify(date, newTime);
     }
+
+    public Crew getAttendanceRecords(String name) {
+        return crews.getCrew(name);
+    }
 }
