@@ -1,14 +1,74 @@
 # java-attendance-precourse
 
-<img width="800" height="1100" alt="스크린샷 2025-11-27 20 49 53" src="https://github.com/user-attachments/assets/2d22a1eb-c88c-4874-be38-522ca8f39ef0" />
-<img width="800" height="1100" alt="스크린샷 2025-11-27 20 49 55" src="https://github.com/user-attachments/assets/3e800b13-b514-46ca-ab04-f7b96a91e3d3" />
-<img width="800" height="1100" alt="스크린샷 2025-11-27 20 49 56" src="https://github.com/user-attachments/assets/2612dc78-c368-43d4-a889-c96635bb81e2" />
-<img width="800" height="1100" alt="스크린샷 2025-11-27 20 49 57" src="https://github.com/user-attachments/assets/91b8f32d-d8eb-4afb-8618-2db857046be5" />
-<img width="800" height="1100" alt="스크린샷 2025-11-27 20 49 58" src="https://github.com/user-attachments/assets/a60dff46-b1ba-4a9c-b553-b2d33b6f83c3" />
-<img width="800" height="1100" alt="스크린샷 2025-11-27 20 50 05" src="https://github.com/user-attachments/assets/ca7622c4-a817-42e6-bd51-b82ea4e64687" />
-<img width="800" height="1100" alt="스크린샷 2025-11-27 20 50 06" src="https://github.com/user-attachments/assets/41ba608f-32d7-4cd5-81b8-4ce6815a8df0" />
-<img width="800" height="1100" alt="스크린샷 2025-11-27 20 50 08" src="https://github.com/user-attachments/assets/01a2d89f-8974-472b-bc3c-66aa38860e20" />
-<img width="800" height="1100" alt="스크린샷 2025-11-27 20 50 09" src="https://github.com/user-attachments/assets/6af5f4c8-d713-484d-925b-612c4c1dd28e" />
-<img width="800" height="1100" alt="스크린샷 2025-11-27 20 50 10" src="https://github.com/user-attachments/assets/902e6200-fa14-43aa-b0f1-be86d9740973" />
-<img width="800" height="1100" alt="스크린샷 2025-11-27 20 50 11" src="https://github.com/user-attachments/assets/d123d70f-ade3-4f0a-afd8-3b92c95f6d44" />
-<img width="800" height="1100" alt="스크린샷 2025-11-27 20 51 49" src="https://github.com/user-attachments/assets/3889a8a8-86e2-4bc8-aca0-8577a5b8253e" />
+## 기능 구현 목록
+> 기능 작동 순서대로 작성
+
+1. 파일 입력 및 출석 정보 저장
+2. 기능 선택 및 검증
+    - 출력문
+        - 날짜 요일
+    - 예외 사항
+        - 1,2,3,4,Q가 아닌 경우 -> Validator
+            - 잘못된 형식을 입력하였습니다.
+3. 출석확인
+    1. 오늘이 등교일이 아니면 예외 발생 -> Service
+        - %s은 등교일이 아닙니다.
+    2. 닉네임 입력 및 검증
+        - 예외 사항
+            - 등록되지 않은 닉네임인 경우 -> Crews
+                - 등록되지 않은 닉네임입니다.
+            - 이미 출석을 하였는데 다시 출석 확인을 하는 경우 -> Attendance
+                - 이미 출석을 확인하였습니다. 필요한 경우 수정 기능을 이용해주세요.
+    3. 등교 시간 입력 및 검증
+        - 예외 사항
+            - 시간을 잘못된 형식으로 입력한 경우 -> Validator
+                - 잘못된 형식을 입력하였습니다.
+            - 등교 시간이 캠퍼스 운영 시간이 아닌 경우 -> Service
+                - 캠퍼스 운영 시간에만 출석이 가능합니다.
+    4. 출석 정보 저장
+    5. 확인 결과 출력
+        - 월, 일, 요일, 시간, 출석 상태
+4. 출석 수정
+    1. 닉네임 입력 및 검증
+        - 예외 사항
+            - 등록되지 않은 닉네임인 경우 -> Crews
+                - 등록되지 않은 닉네임입니다.
+    2. 날짜 입력 및 검증
+        - 예외 사항
+            - 잘못된 형식을 입력한 경우 -> Validator
+                - 잘못된 형식을 입력하였습니다.
+            - 등교일이 아니면 예외 발생 -> Service
+                - %s은 등교일이 아닙니다.
+            - 미래 날짜로 출석을 수정하는 경우 -> Service
+                - 아직 수정할 수 없습니다.
+    3. 시각 입력 및 검증
+        - 예외 사항
+            - 시간을 잘못된 형식으로 입력한 경우 -> Validator
+                - 잘못된 형식을 입력하였습니다.
+            - 등교 시간이 캠퍼스 운영 시간이 아닌 경우 -> Service
+                - 캠퍼스 운영 시간에만 출석이 가능합니다.
+    4. 출석 정보 수정
+    5. 수정 결과 출력
+        - 월, 일, 요일
+        - 이전 시간, 이전 출석 상태
+        - 변경 시간, 변경 출석 상태
+5. 크루별 출석 기록 확인
+    1. 닉네임 입력 및 검증
+        - 예외 사항
+            - 등록되지 않은 닉네임인 경우 -> Crews
+                - 등록되지 않은 닉네임입니다.
+    2. 출석 기록 출력
+        - 전날까지의 출석 기록 출력
+        - 월, 일, 요일, 시간, 출석 상태
+            - 아예 안온날은 시간을 --:-- 으로 출력
+        - 출석, 지각, 결석 횟수
+        - 위험 대상자라면 해당 상태 출력
+6. 제적 위험자 확인
+    - 전날까지의 기록으로 제적 위험자 파악
+    - 이름, 결석 횟수, 지각 횟수, 위험 상태
+    - 정렬 기준
+        1. 결석 + 지각/3 내림
+        2. 결석 내림
+        3. 지각 내림
+        4. 이름 오름
+7. 종료
