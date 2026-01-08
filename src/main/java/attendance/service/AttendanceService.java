@@ -69,4 +69,8 @@ public class AttendanceService {
             throw new IllegalArgumentException(ErrorMessage.NO_OPERATION_TIME_ERROR.getErrorMessage());
         }
     }
+
+    public void validateModificationPossible(String name) {
+        crews.getCrew(name);
+    }
 }

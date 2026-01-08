@@ -30,4 +30,9 @@ public class InputView {
         System.out.println("등교 시간을 입력해 주세요.");
         return Console.readLine();
     }
+
+    public static String readModifiedName() {
+        System.out.println("출석을 수정하려는 크루의 닉네임을 입력해 주세요.");
+        return Console.readLine();
+    }
 }
