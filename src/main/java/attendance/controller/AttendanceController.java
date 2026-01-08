@@ -40,6 +40,6 @@ public class AttendanceController {
     }
 
     private MenuOption readOption() {
-        InputParser.parseMenu(InputView.readMenuSelection());
+        return InputParser.parseMenu(InputView.readMenuSelection());
     }
 }
