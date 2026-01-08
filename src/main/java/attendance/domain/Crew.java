@@ -17,4 +17,12 @@ public class Crew {
     public static Crew of(String name, Map<LocalDate, LocalTime> localDateTimes) {
         return new Crew(name, Attendance.from(localDateTimes));
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void check(LocalDate date) {
+        attendance.check(date);
+    }
 }

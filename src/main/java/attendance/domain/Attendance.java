@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import attendance.constant.ErrorMessage;
 import attendance.constant.Holiday;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
@@ -38,5 +39,13 @@ public class Attendance {
 
     private static boolean isHoliDay(LocalDate date) {
         return !Holiday.from(date).equals(Holiday.NONE);
+    }
+
+    public void check(LocalDate date) {
+        if (attendances.containsKey(date)) {
+            throw new IllegalArgumentException(ErrorMessage.ALREADY_ATTENDANCE_ERROR.getErrorMessage());
+        }
+
+
     }
 }

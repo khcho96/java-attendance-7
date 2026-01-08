@@ -1,5 +1,6 @@
 package attendance.domain;
 
+import attendance.constant.ErrorMessage;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -21,5 +22,12 @@ public class Crews {
             crews.add(crew);
         }
         return new Crews(crews);
+    }
+
+    public Crew getCrew(String name) {
+        return crews.stream()
+                .filter(crew -> crew.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NO_EXIST_NAME_ERROR.getErrorMessage()));
     }
 }

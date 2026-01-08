@@ -4,6 +4,7 @@ import static java.util.Locale.KOREA;
 
 import attendance.constant.ErrorMessage;
 import attendance.constant.Holiday;
+import attendance.domain.Crew;
 import attendance.domain.Crews;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,5 +49,10 @@ public class AttendanceService {
         if (!Holiday.from(date).equals(Holiday.NONE)) {
             throw new IllegalArgumentException(ErrorMessage.NO_ATTENDANCE_DAY_ERROR.getErrorMessage(date.format(DATE_FMT)));
         }
+    }
+
+    public void check(String name, LocalDate date) {
+        Crew crew = crews.getCrew(name);
+        crew.check(date);
     }
 }

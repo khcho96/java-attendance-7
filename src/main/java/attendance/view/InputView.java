@@ -21,4 +21,9 @@ public class InputView {
                 + "Q. 종료\n", DateTimes.now().toLocalDate().format(DATE_FMT));
         return Console.readLine();
     }
+
+    public static String readName() {
+        System.out.println("닉네임을 입력해 주세요.");
+        return Console.readLine();
+    }
 }

@@ -2,7 +2,10 @@ package attendance.command.impl;
 
 import attendance.command.Command;
 import attendance.service.AttendanceService;
+import attendance.util.InputParser;
+import attendance.view.InputView;
 import camp.nextstep.edu.missionutils.DateTimes;
+import java.time.LocalDate;
 
 public class CheckCommand implements Command {
 
@@ -14,8 +17,10 @@ public class CheckCommand implements Command {
 
     @Override
     public void execute() {
-        service.validateHoliday(DateTimes.now().toLocalDate());
+        LocalDate now = DateTimes.now().toLocalDate();
+        service.validateHoliday(now);
 
-
+        String name = InputParser.parseName(InputView.readName());
+        service.check(name, now);
     }
 }
