@@ -1,6 +1,6 @@
 package attendance.command;
 
-import attendance.command.impl.FeatureACommand;
+import attendance.command.impl.CheckCommand;
 import attendance.command.impl.FeatureBCommand;
 import attendance.command.impl.FeatureCCommand;
 import attendance.command.impl.FeatureDCommand;
@@ -17,7 +17,7 @@ public class MenuCommandRegistry {
 
     public static MenuCommandRegistry from(AttendanceService service) {
         EnumMap<MenuOption, Command> map = new EnumMap<>(MenuOption.class);
-        map.put(MenuOption.A, new FeatureACommand(service));
+        map.put(MenuOption.A, new CheckCommand(service));
         map.put(MenuOption.B, new FeatureBCommand(service));
         map.put(MenuOption.C, new FeatureCCommand(service));
         map.put(MenuOption.D, new FeatureDCommand(service));

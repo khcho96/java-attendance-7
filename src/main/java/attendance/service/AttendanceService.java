@@ -2,6 +2,8 @@ package attendance.service;
 
 import static java.util.Locale.KOREA;
 
+import attendance.constant.ErrorMessage;
+import attendance.constant.Holiday;
 import attendance.domain.Crews;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,6 +17,8 @@ public class AttendanceService {
 
     private static final DateTimeFormatter DATETIME_FMT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", KOREA);
+    private static final DateTimeFormatter DATE_FMT =
+            DateTimeFormatter.ofPattern("M월 dd일 E요일", KOREA);
 
     private Crews crews;
 
@@ -38,5 +42,11 @@ public class AttendanceService {
         }
 
         crews = Crews.from(attendances);
+    }
+
+    public void validateHoliday(LocalDate date) {
+        if (!Holiday.from(date).equals(Holiday.NONE)) {
+            throw new IllegalArgumentException(ErrorMessage.NO_ATTENDANCE_DAY_ERROR.getErrorMessage(date.format(DATE_FMT)));
+        }
     }
 }
