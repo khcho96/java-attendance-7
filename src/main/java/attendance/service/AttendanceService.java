@@ -16,6 +16,8 @@ import java.util.Map;
 
 public class AttendanceService {
 
+    private static final LocalTime START_TIME = LocalTime.of(8,0);
+    private static final LocalTime END_TIME = LocalTime.of(23,0);
     private static final DateTimeFormatter DATETIME_FMT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", KOREA);
     private static final DateTimeFormatter DATE_FMT =
@@ -54,5 +56,15 @@ public class AttendanceService {
     public void validateCheckPossible(String name, LocalDate date) {
         Crew crew = crews.getCrew(name);
         crew.validateCheckPossible(date);
+    }
+
+    public void check(String name, LocalDate now, LocalTime time) {
+
+    }
+
+    public void validateOperationTime(LocalTime time) {
+        if (time.isBefore(START_TIME) || time.isAfter(END_TIME)) {
+            throw new IllegalArgumentException(ErrorMessage.NO_OPERATION_TIME_ERROR.getErrorMessage());
+        }
     }
 }

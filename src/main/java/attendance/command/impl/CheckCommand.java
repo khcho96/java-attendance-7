@@ -6,6 +6,7 @@ import attendance.util.InputParser;
 import attendance.view.InputView;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class CheckCommand implements Command {
 
@@ -23,6 +24,9 @@ public class CheckCommand implements Command {
         String name = InputParser.parseName(InputView.readName());
         service.validateCheckPossible(name, now);
 
+        LocalTime time = InputParser.parseTime(InputView.readTime());
+        service.validateOperationTime(time);
 
+        service.check(name, now, time);
     }
 }
