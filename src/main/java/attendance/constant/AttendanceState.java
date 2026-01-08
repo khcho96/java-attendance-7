@@ -7,7 +7,7 @@ import java.util.Arrays;
 public enum AttendanceState {
 
     ABSENCE(30, "결석"),
-    LATE(5, "면담"),
+    LATE(5, "지각"),
     ATTENDANCE(0, "출석"),
     ;
 

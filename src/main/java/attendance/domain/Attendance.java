@@ -21,7 +21,6 @@ public class Attendance {
 
         LocalDate now = DateTimes.now().toLocalDate();
         for (LocalDate date = LocalDate.of(2024,12,1); date.isBefore(now); date = date.plusDays(1)) {
-
             if (isHoliDay(date)) {
                 continue;
             }
