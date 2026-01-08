@@ -6,6 +6,7 @@ import attendance.constant.ErrorMessage;
 import attendance.constant.Holiday;
 import attendance.domain.Crew;
 import attendance.domain.Crews;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -48,10 +49,14 @@ public class AttendanceService {
     }
 
     public void validateHoliday(LocalDate date) {
-        if (!Holiday.from(date).equals(Holiday.NONE)) {
+        if (isHoliday(date)) {
             throw new IllegalArgumentException(
                     ErrorMessage.NO_ATTENDANCE_DAY_ERROR.getErrorMessage(date.format(DATE_FMT)));
         }
+    }
+
+    private static boolean isHoliday(LocalDate date) {
+        return !Holiday.from(date).equals(Holiday.NONE);
     }
 
     public void validateCheckPossible(String name, LocalDate date) {
@@ -72,5 +77,16 @@ public class AttendanceService {
 
     public void validateModificationPossible(String name) {
         crews.getCrew(name);
+    }
+
+    public void validateModificationPossible(LocalDate date) {
+        if (isHoliday(date)) {
+            throw new IllegalArgumentException(
+                    ErrorMessage.NO_ATTENDANCE_DAY_ERROR.getErrorMessage(date.format(DATE_FMT)));
+        }
+
+        if (date.isAfter(DateTimes.now().toLocalDate())) {
+            throw new IllegalArgumentException(ErrorMessage.FUTURE_DATE_ERROR.getErrorMessage());
+        }
     }
 }
