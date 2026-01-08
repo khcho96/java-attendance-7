@@ -16,8 +16,7 @@ public class InputView {
                 + "1. 출석 확인\n"
                 + "2. 출석 수정\n"
                 + "3. 크루별 출석 기록 확인\n"
-                + "4. 제적 위험\n"
-                + "자 확인\n"
+                + "4. 제적 위험자 확인\n"
                 + "Q. 종료\n", DateTimes.now().toLocalDate().format(DATE_FMT));
         return Console.readLine();
     }

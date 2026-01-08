@@ -12,7 +12,7 @@ public class Crews {
     private final List<Crew> crews;
 
     private Crews(List<Crew> crews) {
-        this.crews = new ArrayList<>();
+        this.crews = crews;
     }
 
     public static Crews from(Map<String, Map<LocalDate, LocalTime>> attendances) {

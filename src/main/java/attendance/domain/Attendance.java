@@ -12,7 +12,7 @@ public class Attendance {
     private final Map<LocalDate, LocalTime> attendances;
 
     public Attendance(Map<LocalDate, LocalTime> attendances) {
-        this.attendances = new HashMap<>();
+        this.attendances = attendances;
     }
 
     public static Attendance from(Map<LocalDate, LocalTime> dateTimes) {

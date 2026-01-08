@@ -2,6 +2,10 @@ package attendance.view;
 
 import static java.util.Locale.KOREA;
 
+import attendance.constant.AttendanceState;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class OutputView {
@@ -16,10 +20,7 @@ public class OutputView {
     private OutputView() {
     }
 
-    public static void printErrorMessage(IllegalArgumentException e) {
-        System.out.println(e.getMessage());
-    }
-
-    public static void print() {
+    public static void printCheckResult(LocalDate date, LocalTime time) {
+        System.out.printf("%s (%s)\n", LocalDateTime.of(date,time).format(DATETIME_FMT), AttendanceState.of(date, time).getName());
     }
 }

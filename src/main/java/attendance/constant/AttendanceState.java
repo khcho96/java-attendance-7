@@ -19,7 +19,7 @@ public enum AttendanceState {
         this.name = name;
     }
 
-    public static AttendanceState from(LocalDate date, LocalTime time) {
+    public static AttendanceState of(LocalDate date, LocalTime time) {
         Standard standard = Standard.from(date);
 
         return Arrays.stream(values())

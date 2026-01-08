@@ -4,6 +4,7 @@ import attendance.command.Command;
 import attendance.service.AttendanceService;
 import attendance.util.InputParser;
 import attendance.view.InputView;
+import attendance.view.OutputView;
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -28,5 +29,7 @@ public class CheckCommand implements Command {
         service.validateOperationTime(time);
 
         service.check(name, now, time);
+
+        OutputView.printCheckResult(now, time);
     }
 }
